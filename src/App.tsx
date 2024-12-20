@@ -1,9 +1,11 @@
-import React from 'react';
+// import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import { Analytics } from './components/Analytics';
 import { PostScheduler } from './components/PostScheduler';
 import { AutoResponder } from './components/AutoResponder';
+
+
 
 function App() {
   return (
@@ -15,8 +17,8 @@ function App() {
             <Route path="/" element={
               <div className="space-y-8">
                 <h1 className="text-2xl font-bold">Dashboard</h1>
-                <Analytics />
-                <PostScheduler />
+                {/* <Analytics />
+                <PostScheduler /> */}
               </div>
             } />
             <Route path="/schedule" element={<PostScheduler />} />

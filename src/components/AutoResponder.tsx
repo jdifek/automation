@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Plus, Trash2 } from 'lucide-react';
-import type { AutoResponse, Platform } from '../types';
+import { useState } from "react";
+import { Plus, Trash2 } from "lucide-react";
+import type { AutoResponse, Platform } from "../types";
 
-const AutoResponder = () => {
+export const AutoResponder = () => {
   const [responses, setResponses] = useState<AutoResponse[]>([]);
   const [newResponse, setNewResponse] = useState({
-    trigger: '',
-    response: '',
-    platform: 'instagram' as Platform,
+    trigger: "",
+    response: "",
+    platform: "instagram" as Platform,
   });
 
   const handleAdd = () => {
@@ -20,7 +20,7 @@ const AutoResponder = () => {
           isActive: true,
         },
       ]);
-      setNewResponse({ trigger: '', response: '', platform: 'instagram' });
+      setNewResponse({ trigger: "", response: "", platform: "instagram" });
     }
   };
 
@@ -31,26 +31,35 @@ const AutoResponder = () => {
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <h2 className="text-xl font-semibold mb-4">Auto-Responses</h2>
-      
+
       <div className="mb-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <input
             type="text"
             value={newResponse.trigger}
-            onChange={(e) => setNewResponse({ ...newResponse, trigger: e.target.value })}
+            onChange={(e) =>
+              setNewResponse({ ...newResponse, trigger: e.target.value })
+            }
             placeholder="Trigger keyword"
             className="p-2 border border-gray-300 rounded-lg"
           />
           <input
             type="text"
             value={newResponse.response}
-            onChange={(e) => setNewResponse({ ...newResponse, response: e.target.value })}
+            onChange={(e) =>
+              setNewResponse({ ...newResponse, response: e.target.value })
+            }
             placeholder="Auto response"
             className="p-2 border border-gray-300 rounded-lg"
           />
           <select
             value={newResponse.platform}
-            onChange={(e) => setNewResponse({ ...newResponse, platform: e.target.value as Platform })}
+            onChange={(e) =>
+              setNewResponse({
+                ...newResponse,
+                platform: e.target.value as Platform,
+              })
+            }
             className="p-2 border border-gray-300 rounded-lg"
           >
             <option value="instagram">Instagram</option>

@@ -1,8 +1,7 @@
-import React from 'react';
 import { BarChart2, TrendingUp, Users, MessageCircle } from 'lucide-react';
 import type { Analytics as AnalyticsType } from '../types';
 
-const Analytics = () => {
+export const Analytics = () => {
   const stats: AnalyticsType = {
     likes: 1234,
     comments: 456,

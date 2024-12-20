@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Calendar, Image, Send } from 'lucide-react';
 import type { Platform } from '../types';
 
-const PostScheduler = () => {
+export const PostScheduler = () => {
   const [content, setContent] = useState('');
   const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>([]);
   const [scheduledDate, setScheduledDate] = useState('');

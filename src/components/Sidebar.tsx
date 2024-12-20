@@ -1,4 +1,3 @@
-import React from 'react';
 import { LayoutDashboard, Calendar, BarChart2, MessageSquare, Settings } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -39,3 +38,5 @@ const Sidebar = () => {
     </div>
   );
 };
+
+export default Sidebar
