@@ -3,15 +3,11 @@ import openai from "../config/openaiConfig.js";
 
 const router = express.Router();
 
-// Simple GET route to check server status
 router.get("/", (req, res) => {
-  res.send("Server is running. Send a POST request to /api/get-answer.");
+  res.send("Server is running. Send a POST request to /api/get-answer or /api/get-answer-img.");
 });
 
-// POST route to handle OpenAI API requests
-router.post("/get-answer", async (req, res) => {
-  const { question } = req.body;
-
+const handleOpenAIRequest = async (question, res) => {
   try {
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -27,6 +23,16 @@ router.post("/get-answer", async (req, res) => {
     console.error("Error fetching from OpenAI", error);
     res.status(500).json({ error: "Failed to fetch answer from OpenAI" });
   }
+};
+
+router.post("/get-answer", async (req, res) => {
+  const { question } = req.body;
+  await handleOpenAIRequest(question, res);
+});
+
+router.post("/get-answer-img", async (req, res) => {
+  const { question } = req.body;
+  await handleOpenAIRequest(question, res);
 });
 
 export default router;
