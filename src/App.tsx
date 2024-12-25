@@ -5,7 +5,10 @@ import { Analytics } from "./components/Analytics";
 import { PostScheduler } from "./components/PostScheduler";
 import { AutoResponder } from "./components/AutoResponder";
 import { Dashboard } from "./components/Dashboard";
-import { TelegramPostManager } from "./components/PostCretor/TelegramPostManager";
+import InstagramPostManager from "./components/PostCretor/InstagramPostManager";
+import TelegramPostManager from "./components/PostCretor/TelegramPostManager";
+import TikTokPostManager from "./components/PostCretor/TikTokPostManager";
+import FacebookPostManager from "./components/PostCretor/FacebookPostManager";
 // import { PostCreator } from "./components/Dashboard";
 
 function App() {
@@ -17,8 +20,17 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route
-              path="/dashboard/:telegram"
+              path="/dashboard/telegram"
               element={<TelegramPostManager />}
+            />
+            <Route
+              path="/dashboard/instagram"
+              element={<InstagramPostManager />}
+            />
+            <Route path="/dashboard/tiktok" element={<TikTokPostManager />} />
+            <Route
+              path="/dashboard/facebook"
+              element={<FacebookPostManager />}
             />
             <Route path="/schedule" element={<PostScheduler />} />
             <Route path="/analytics" element={<Analytics />} />
