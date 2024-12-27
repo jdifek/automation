@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/Sidebar";
 import Provider from "./provider";
 
 export const viewport: Viewport = {
