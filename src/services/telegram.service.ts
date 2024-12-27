@@ -7,7 +7,7 @@ export const telegramService = {
       {
         text,
         parse_mode: "MarkdownV2",
-        chat_id: process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID,
+        chat_id: '@testbot111222333',
       },
       { headers: { "Content-Type": "application/json" } }
     );
