@@ -4,10 +4,10 @@ const DEFAULT_HEADER = {
   "Content-Type": "application/json; charset=utf-8",
 };
 
-export const fetchData = async <T>(
+export const fetchData = async <T, D = unknown>(
   url: string,
   method: string,
-  data?: any,
+  data?: D,
   headers = DEFAULT_HEADER
 ): Promise<T> => {
   try {

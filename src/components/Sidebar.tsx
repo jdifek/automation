@@ -1,3 +1,4 @@
+"use client";
 import {
   LayoutDashboard,
   Calendar,
@@ -5,13 +6,14 @@ import {
   MessageSquare,
   Settings,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation"; // Correct hook for getting the pathname in App Router
 
 const Sidebar = () => {
-  const location = useLocation();
+  const pathname = usePathname(); // Use usePathname hook to get the current path
 
   const menuItems = [
-    { icon: LayoutDashboard, label: "Dashboard", path: "/" },
+    { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: Calendar, label: "Schedule", path: "/schedule" },
     { icon: BarChart2, label: "Analytics", path: "/analytics" },
     { icon: MessageSquare, label: "Auto-responses", path: "/responses" },
@@ -26,11 +28,11 @@ const Sidebar = () => {
       <nav className="mt-6">
         {menuItems.map((item) => {
           const Icon = item.icon;
-          const isActive = location.pathname === item.path;
+          const isActive = pathname === item.path; // Compare pathname instead of router.pathname
           return (
             <Link
               key={item.path}
-              to={item.path}
+              href={item.path}
               className={`flex items-center px-6 py-3 text-gray-700 hover:bg-indigo-50 hover:text-indigo-600 ${
                 isActive ? "bg-indigo-50 text-indigo-600" : ""
               }`}
