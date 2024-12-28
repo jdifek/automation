@@ -6,7 +6,6 @@ export function useSendMessage() {
     mutationKey: ["send message"],
     mutationFn: async (text: string) => {
       const escapeMarkdown = (text: string): string => {
-        // Екранує спеціальні символи Markdown
         return text.replace(/([_[\]()~`>#+=|{}.!-])/g, "\\$1");
       };
 
