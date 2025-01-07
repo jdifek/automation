@@ -11,13 +11,20 @@ interface PostManagerProps {
   PublishIcon: LucideIcon;
 }
 
-const PostManager: React.FC<PostManagerProps> = ({ platformName, PublishIcon }) => {
+const PostManager: React.FC<PostManagerProps> = ({
+  platformName,
+  PublishIcon,
+}) => {
   const [request, setRequest] = useState("");
   const [isChecked, setIsChecked] = useState(false);
   const [interval, setInterval] = useState(0.01);
 
   const [posts, setPosts] = useSavedPosts();
-  const { receivedAnswer, loading, handleAdd } = usePostGeneration(posts, isChecked, request);
+  const { receivedAnswer, loading, handleAdd } = usePostGeneration(
+    posts,
+    isChecked,
+    request
+  );
   const { mutate: sendMessage } = useSendMessage();
 
   const handleSendMessage = async () => {
@@ -40,7 +47,9 @@ const PostManager: React.FC<PostManagerProps> = ({ platformName, PublishIcon }) 
         console.error("Error sending message:", error);
       }
     } else {
-      console.warn(`Confidence too low (${parsedAnswer.confidence}%). Message not sent.`);
+      console.warn(
+        `Confidence too low (${parsedAnswer.confidence}%). Message not sent.`
+      );
     }
   };
 
@@ -52,7 +61,9 @@ const PostManager: React.FC<PostManagerProps> = ({ platformName, PublishIcon }) 
 
   const hours = Array.from({ length: 24 }, (_, i) => i + 1);
 
-  const handleIntervalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleIntervalChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setInterval(Number(event.target.value));
   };
 
@@ -71,7 +82,8 @@ const PostManager: React.FC<PostManagerProps> = ({ platformName, PublishIcon }) 
             />
             <button
               onClick={() => {
-                handleAdd(), setRequest("");
+                handleAdd();
+                setRequest("");
               }}
               className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
             >
@@ -91,7 +103,10 @@ const PostManager: React.FC<PostManagerProps> = ({ platformName, PublishIcon }) 
 
       {loading && (
         <div className="flex justify-center my-4">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          >
             <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
               Loading...
             </span>

@@ -21,6 +21,7 @@ export const usePostGeneration = (posts: string[], isChecked: boolean, request: 
       setReceivedAnswer(data.answer);
     } catch (error) {
       setReceivedAnswer("Error getting answer. Please try again.");
+      console.log(error);
     } finally {
       setLoading(false);
     }

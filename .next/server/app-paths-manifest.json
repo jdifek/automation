@@ -1,7 +1,5 @@
 {
-  "/(home)/dashboard/[slug]/page": "app/(home)/dashboard/[slug]/page.js",
   "/(home)/page": "app/(home)/page.js",
   "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
-  "/api/get-answer/route": "app/api/get-answer/route.js",
-  "/_not-found/page": "app/_not-found/page.js"
+  "/(home)/profile/page": "app/(home)/profile/page.js"
 }

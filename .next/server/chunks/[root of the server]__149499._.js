@@ -98,11 +98,11 @@ const authConfig = {
                     return null;
                 }
                 const currentUser = __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$data$2f$users$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["users"].find((user)=>user.email === credentials.email);
-                if (currentUser && currentUser.password === credentials.password) {
-                    const { password, ...userWithoutPass } = currentUser;
-                    return userWithoutPass;
-                }
-                return null;
+                const userWithoutPass = {
+                    ...currentUser
+                };
+                delete userWithoutPass.password;
+                return userWithoutPass;
             }
         })
     ]

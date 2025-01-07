@@ -24,13 +24,10 @@ export const authConfig: AuthOptions = {
           (user) => user.email === credentials.email
         );
 
-        if (currentUser && currentUser.password === credentials.password) {
-          const { password, ...userWithoutPass } = currentUser;
-
-          return userWithoutPass as User;
-        }
-
-        return null;
+        const userWithoutPass = { ...currentUser };
+        delete userWithoutPass.password;
+        
+        return userWithoutPass as User;
       },
     }),
   ],
