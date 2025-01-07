@@ -1,77 +1,50 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { fetchData } from "@/services/apiServise";
+import React, { useState } from "react";
 import { Hammer, LucideIcon } from "lucide-react";
 import { useSendMessage } from "@/hooks/useTelegram";
-import { useGetChatInfo } from "@/hooks/useTelegram";
+import { useSavedPosts } from "@/hooks/useSavedPosts";
+import { usePostGeneration } from "@/hooks/usePostGeneration";
+import { useAutoPost } from "@/hooks/useAutoPost";
+import { utilFunction } from "@/utils/utilFunction";
 
 interface PostManagerProps {
   platformName: string;
   PublishIcon: LucideIcon;
 }
 
-const chatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID || "-1002453211834";
-
-const basicQuery =
-  "You will be creating posts for Telegram channels. Help me with this. Here is a description of what the post should be like:{message}. Also add the confidence in how well the request is put so that it could be used to create a post in TG, in percentage terms by type [80%]";
-
-const PostManager: React.FC<PostManagerProps> = ({
-  platformName,
-  PublishIcon,
-}) => {
-  const [receivedAnswer, setReceivedAnswer] = useState("");
+const PostManager: React.FC<PostManagerProps> = ({ platformName, PublishIcon }) => {
   const [request, setRequest] = useState("");
   const [isChecked, setIsChecked] = useState(false);
-  const [intervalId, setIntervalId] = useState<number | null>(null);
   const [interval, setInterval] = useState(0.01);
-  const [allPosts, setAllPosts] = useState<string[]>([]);
 
- 
-  const {data} = useGetChatInfo(chatId);
-
-
-  useEffect(() => {
-    if (data && data.posts) {
-      setAllPosts(data.posts.map((post: { text: string }) => post.text));
-    }
-  }, [data]);
-
+  const [posts, setPosts] = useSavedPosts();
+  const { receivedAnswer, loading, handleAdd } = usePostGeneration(posts, isChecked, request);
   const { mutate: sendMessage } = useSendMessage();
 
-  const handleAdd = async () => {
-    const fullRequest = `${basicQuery} ${request}`;
-
-    try {
-      const data = await fetchData<{ answer: string }>(
-        "/api/get-answer",
-        "POST",
-        { question: fullRequest }
-      );
-
-      setReceivedAnswer(data.answer);
-    } catch (error) {
-      setReceivedAnswer("Error getting answer. Please try again.");
-      console.log(error);
+  const handleSendMessage = async () => {
+    if (!receivedAnswer.trim()) {
+      console.error("No answer received. Cannot send an empty message.");
+      return;
     }
-  };
 
-  const handleSendMessage = () => {
-    const confidenceMatch = receivedAnswer.match(
-      /Confidence in request-\[(\d+)%\]/
-    );
-    if (confidenceMatch) {
-      const confidence = parseInt(confidenceMatch[1], 10);
-      if (confidence >= 80) {
-        sendMessage(receivedAnswer);
-        console.log("Message sent successfully.");
-      } else {
-        sendMessage("Confidence is below 80%, message not sent.");
+    if (isChecked) {
+      handleAdd();
+    }
+
+    const parsedAnswer = utilFunction(receivedAnswer);
+
+    if (parsedAnswer.confidence >= 80) {
+      try {
+        sendMessage(parsedAnswer.text);
+        setPosts((prevPosts) => [...prevPosts, parsedAnswer.text]);
+      } catch (error) {
+        console.error("Error sending message:", error);
       }
     } else {
-      sendMessage("Confidence information not found in the answer.");
+      console.warn(`Confidence too low (${parsedAnswer.confidence}%). Message not sent.`);
     }
   };
+
+  useAutoPost(isChecked, interval, receivedAnswer, handleSendMessage);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(event.target.checked);
@@ -79,37 +52,14 @@ const PostManager: React.FC<PostManagerProps> = ({
 
   const hours = Array.from({ length: 24 }, (_, i) => i + 1);
 
-  const handleIntervalChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleIntervalChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setInterval(Number(event.target.value));
   };
-
-  useEffect(() => {
-    if (isChecked) {
-      const id = window.setInterval(handleSendMessage, interval * 3600000);
-      setIntervalId(id);
-    } else if (intervalId) {
-      clearInterval(intervalId);
-      setIntervalId(null);
-    }
-
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [isChecked, interval]);
 
   return (
     <>
       <div className="bg-white rounded-lg shadow p-6">
-        <button onClick={() => console.log(allPosts)}>Вивести пости</button>
-        <h2 className="text-xl font-semibold mb-4">
-          Create
-          {allPosts.length > 0 ? allPosts.join(", ") : "Немає постів"}
-        </h2>
-
+        <h2 className="text-xl font-semibold mb-4">Create</h2>
         <div className="mb-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <input
@@ -120,7 +70,9 @@ const PostManager: React.FC<PostManagerProps> = ({
               className="p-2 border border-gray-300 rounded-lg md:col-span-2"
             />
             <button
-              onClick={handleAdd}
+              onClick={() => {
+                handleAdd(), setRequest("");
+              }}
               className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
             >
               <Hammer className="w-5 h-5 mr-2" />
@@ -136,13 +88,25 @@ const PostManager: React.FC<PostManagerProps> = ({
           </div>
         </div>
       </div>
-      {receivedAnswer && (
-        <div className="bg-white rounded-lg shadow p-6 mt-3">
-          <div className="space-y-4 flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-            {receivedAnswer}
+
+      {loading && (
+        <div className="flex justify-center my-4">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]" role="status">
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
           </div>
         </div>
       )}
+
+      {receivedAnswer && !loading && (
+        <div className="bg-white rounded-lg shadow p-6 mt-3">
+          <div className="space-y-4 flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            {utilFunction(receivedAnswer).text}
+          </div>
+        </div>
+      )}
+
       <div className="flex justify-between w-full bg-gray-100 mt-6">
         <div className="w-1/2 bg-white rounded-lg shadow p-6">
           <label className="flex items-center space-x-3 mb-4">

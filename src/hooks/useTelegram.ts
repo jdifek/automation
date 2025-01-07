@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { telegramService } from "@/services/telegram.service";
 
 export function useSendMessage() {
@@ -15,17 +15,5 @@ export function useSendMessage() {
   });
 }
 
-export function useGetChatInfo(chatId: string) {
-  return useQuery({
-    queryKey: ["chatInfo", chatId],
-    queryFn: () => telegramService.getChatInfo(chatId),
-    enabled: !!chatId,
-    refetchInterval: (query) => {
-      const data = query.state.data;
-      if (data) {
-        return 10000;
-      }
-      return false;
-    },
-  });
-}
+
+

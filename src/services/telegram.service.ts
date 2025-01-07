@@ -7,27 +7,10 @@ export const telegramService = {
       {
         text,
         parse_mode: "MarkdownV2",
-        chat_id: "@testbot111222333",
+        chat_id: "-1002453211834",
       },
       { headers: { "Content-Type": "application/json" } }
     );
   },
 
-  async getChatInfo(chatId: string) {
-    try {
-      const response = await axios.get(
-        `https://api.telegram.org/bot${process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN}/getChat`,
-        {
-          params: {
-            chat_id: chatId,
-          },
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Error getting chat info:", error);
-      throw error;
-    }
-  },
-  
 };

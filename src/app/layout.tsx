@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import Provider from "./provider";
+import { Providers } from "@/components/Providers";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -23,10 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Provider>
-          <Sidebar />
-          {children}
-        </Provider>
+        <Providers>
+          <Provider>
+            <Sidebar />
+            {children}
+          </Provider>
+        </Providers>
       </body>
     </html>
   );
