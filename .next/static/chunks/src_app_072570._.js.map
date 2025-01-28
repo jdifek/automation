@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///Users/main/it/Clix-Web/automation/src/app/provider.tsx"],"sourcesContent":["\"use client\"\n\nimport { QueryClient, QueryClientProvider } from \"@tanstack/react-query\";\nimport { PropsWithChildren } from \"react\";\nimport toast from \"react-hot-toast\";\n\nconst Provider: React.FC<PropsWithChildren> = ({ children }) => {\n  const queryClient = new QueryClient({\n    defaultOptions: {\n      mutations: { onError: (err) => toast.error(err.message) },\n    },\n  });\n  return (\n    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>\n  );\n};\n\nexport default Provider;\n"],"names":[],"mappings":";;;;AAIA;AAFA;AAAA;AAFA;;;;AAMA,MAAM,WAAwC,CAAC,EAAE,QAAQ,EAAE;IACzD,MAAM,cAAc,IAAI,gLAAA,CAAA,cAAW,CAAC;QAClC,gBAAgB;YACd,WAAW;gBAAE,SAAS,CAAC,MAAQ,0JAAA,CAAA,UAAK,CAAC,KAAK,CAAC,IAAI,OAAO;YAAE;QAC1D;IACF;IACA,qBACE,6LAAC,yLAAA,CAAA,sBAAmB;QAAC,QAAQ;kBAAc;;;;;;AAE/C;KATM;uCAWS"}},
+    {"offset": {"line": 42, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}

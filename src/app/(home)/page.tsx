@@ -1,3 +1,4 @@
+
 import {
   FaTelegramPlane,
   FaInstagram,
@@ -6,13 +7,14 @@ import {
 } from "react-icons/fa";
 import Link from "next/link";
 
-export default function Dashboard() {
+export default async function Dashboard() {
   const menuItems = [
     { icon: FaTelegramPlane, label: "Telegram", path: "/dashboard/telegram" },
     { icon: FaInstagram, label: "Instagram", path: "/dashboard/instagram" },
     { icon: FaTiktok, label: "TikTok", path: "/dashboard/tiktok" },
     { icon: FaFacebook, label: "Facebook", path: "/dashboard/facebook" },
   ];
+
 
   return (
     <>

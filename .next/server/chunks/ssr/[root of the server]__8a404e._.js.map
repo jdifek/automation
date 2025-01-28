@@ -1,0 +1,9 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///Users/main/it/Clix-Web/automation/src/app/provider.tsx"],"sourcesContent":["\"use client\"\n\nimport { QueryClient, QueryClientProvider } from \"@tanstack/react-query\";\nimport { PropsWithChildren } from \"react\";\nimport toast from \"react-hot-toast\";\n\nconst Provider: React.FC<PropsWithChildren> = ({ children }) => {\n  const queryClient = new QueryClient({\n    defaultOptions: {\n      mutations: { onError: (err) => toast.error(err.message) },\n    },\n  });\n  return (\n    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>\n  );\n};\n\nexport default Provider;\n"],"names":[],"mappings":";;;;AAIA;AAFA;AAAA;AAFA;;;;AAMA,MAAM,WAAwC,CAAC,EAAE,QAAQ,EAAE;IACzD,MAAM,cAAc,IAAI,6KAAA,CAAA,cAAW,CAAC;QAClC,gBAAgB;YACd,WAAW;gBAAE,SAAS,CAAC,MAAQ,uJAAA,CAAA,UAAK,CAAC,KAAK,CAAC,IAAI,OAAO;YAAE;QAC1D;IACF;IACA,qBACE,8OAAC,sLAAA,CAAA,sBAAmB;QAAC,QAAQ;kBAAc;;;;;;AAE/C;uCAEe"}},
+    {"offset": {"line": 44, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}},
+    {"offset": {"line": 98, "column": 0}, "map": {"version":3,"sources":["file:///Users/main/it/Clix-Web/automation/src/utils/supabase/client.ts"],"sourcesContent":["'use client'\nimport { createBrowserClient } from '@supabase/ssr'\n\nexport function createClient() {\n  return createBrowserClient(\n    process.env.NEXT_PUBLIC_SUPABASE_URL!,\n    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!\n  )\n}\n\n\n"],"names":[],"mappings":";;;AACA;AAAA;AADA;;AAGO,SAAS;IACd,OAAO,CAAA,GAAA,0KAAA,CAAA,sBAAmB,AAAD;AAI3B"}},
+    {"offset": {"line": 108, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}
